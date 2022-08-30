@@ -1,0 +1,63 @@
+﻿@model IEnumerable<CourierManagement.MVC.ViewModels.AllCitiesViewModel>
+
+@{
+    ViewBag.Title = "ViewAllCities";
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Cities</h2>
+            <br />
+            <div class="col-md-offset-6">
+                <button>@Html.ActionLink("Add New City", "AddCities", "Administrators")</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="table table-hover mt-2">
+    <tr>
+        @*<th>
+                @Html.DisplayNameFor(model => model.Status_id)
+            </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.Source_City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Destination_City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cost)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.Status_id)
+                </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Source_City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Destination_City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cost)
+            </td>
+            <td>
+                @Html.ActionLink("Update", "UpdateCities", new { /* id = Model.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.City_Id }, new { onclick = "return confirm('Are sure wants to delete the Route?');" })
+            </td>
+        </tr>
+
+    }
+
+</table>
+
+

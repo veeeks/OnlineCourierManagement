@@ -1,0 +1,79 @@
+﻿@model IEnumerable<CourierManagement.MVC.ViewModels.ConsignmentStatusDisplay>
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<table class="table">
+    <thead><h2>Consignement Details</h2></thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Consignment_Type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Weight)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Consigner_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Consignee_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BookingDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpectedDelivery)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.Consignment_Id)
+                </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Consignment_Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Weight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Consigner_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Consignee_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookingDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExpectedDelivery)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "ConsignmentDetails", new { id = item.Consignment_Id }, null)
+                @if (item.Status != "Delivered")
+                {
+                    <span>|</span>
+                    @Html.ActionLink("Edit", "ConsignmentStatusEdit", new { id = item.Consignment_Id })
+                }
+            </td>
+        </tr>
+    }
+
+</table>

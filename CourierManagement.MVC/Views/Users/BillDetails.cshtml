@@ -1,0 +1,116 @@
+﻿@model CourierManagement.MVC.ViewModels.BillViewModel
+
+@{
+    ViewBag.Title = "BillDetails";
+}
+
+<h2 class="offset-6 mt-2">INVOICE</h2>
+
+<div>
+    @if (@ViewBag.booking !=null)
+    {
+    <h4 class="offset-2"> Consignment booked successfully. Please Keep note of the consignment number.</h4>
+    }
+    <hr />
+    <div class="row offset-5">
+        <div class="col-md-5">
+            <h3> @Html.DisplayNameFor(model => model.Consignment_Id)</h3>
+
+            <h3 class="offset-4"> @Html.DisplayFor(model => model.Consignment_Id) </h3>
+        </div>
+    </div>
+
+
+
+    <div class="container">
+        <div class="row offset-3">
+            <div class="col-md-4">
+                <h5 class="mt-4">
+                    @Html.DisplayNameFor(model => model.Consigner_Name)
+                </h5>
+
+                <h6>
+                    @Html.DisplayFor(model => model.Consigner_Name)
+                </h6>
+
+                <h5 class="mt-4">
+                    @Html.DisplayNameFor(model => model.SAddress)
+                </h5>
+
+                <h6>
+                    @Html.DisplayFor(model => model.SAddress)
+                </h6>
+
+                <h5 class="mt-4">
+                    @Html.DisplayNameFor(model => model.SCity)
+                </h5>
+
+                <h6>
+                    @Html.DisplayFor(model => model.SCity)
+                </h6>
+            </div>
+            &emsp;<div class="col-md-4 offset-2">
+                <h5 class="mt-4">
+                    @Html.DisplayNameFor(model => model.Consignee_Name)
+                </h5>
+
+                <h6>
+                    @Html.DisplayFor(model => model.Consignee_Name)
+                </h6>
+
+                <h5 class="mt-4">
+                    @Html.DisplayNameFor(model => model.RAddress)
+                </h5>
+
+                <h6>
+                    @Html.DisplayFor(model => model.RAddress)
+                </h6>
+
+                <h5 class="mt-4">
+                    @Html.DisplayNameFor(model => model.RCity)
+                </h5>
+
+                <h6>
+                    @Html.DisplayFor(model => model.RCity)
+                </h6>
+            </div>
+        </div>
+        <div class="row offset-3">
+            <div class="col">
+                <h5 class="mt-4">
+                    @Html.DisplayNameFor(model => model.Consignment_Type)
+                </h5>
+
+                <h6>
+                    @Html.DisplayFor(model => model.Consignment_Type)
+                </h6>
+            </div>
+            &emsp;&emsp;<div class="col">
+                <h5 class="mt-4">
+                    @Html.DisplayNameFor(model => model.Weight)
+                </h5>
+
+                <h6>
+                    @Html.DisplayFor(model => model.Weight)
+                </h6>
+            </div>
+        </div>
+        <div class="row offset-5">
+            <div class="col">
+                <h5 class="mt-4">
+                    &emsp;&emsp; @Html.DisplayNameFor(model => model.Billing_Amount)
+                </h5>
+
+                <h5 class="offset-2">
+                    @Html.DisplayFor(model => model.Billing_Amount)
+                </h5>
+            </div>
+        </div>
+        
+
+    </div>
+</div>
+<p>
+    
+    @Html.ActionLink("Back to Home", "Home","Users")
+</p>

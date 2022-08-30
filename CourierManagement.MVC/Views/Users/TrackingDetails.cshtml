@@ -1,0 +1,100 @@
+﻿@model CourierManagement.MVC.ViewModels.TrackCourierViewModel
+@{
+    ViewBag.Title = "TrackingDetails";
+}
+@if (ViewBag.valid == null)
+{
+    <h2 class="mt-4 offset-5">&emsp; TrackingDetails</h2>
+
+
+    <div class="container">
+
+        <hr />
+        <div class="row offset-5 mt-5">
+            <div class="col-md-6">
+                <h3>@Html.DisplayNameFor(model => model.Consignment_Id) :</h3>
+                <h3 class="offset-3">@Html.DisplayFor(model => model.Consignment_Id)</h3>
+            </div>
+        </div>
+
+        <div class="row offset-3 mt-5">
+            <div class="col-md-6">
+                <h5> @Html.DisplayNameFor(model => model.Consigner_Name) :<br /></h5>
+                <h6> @Html.DisplayFor(model => model.Consigner_Name)</h6>
+            </div>
+            <div class="col-md-6">
+                <h5> @Html.DisplayNameFor(model => model.Consignee_Name) :<br /></h5>
+                <h6> @Html.DisplayFor(model => model.Consignee_Name)</h6>
+            </div>
+        </div>
+
+        <div class="row offset-3 mt-5">
+            <div class="col-md-4 ">
+                <h5>@Html.DisplayNameFor(model => model.SAddress) :<br /></h5>
+                <h6> @Html.DisplayFor(model => model.SAddress)</h6>
+            </div>
+            <div class="col-md-4 offset-2">
+                <h5> @Html.DisplayNameFor(model => model.RAddress) :<br /></h5>
+                <h6> @Html.DisplayFor(model => model.RAddress)</h6>
+            </div>
+        </div>
+
+        <div class="row offset-3 mt-5">
+            <div class="col-md-6">
+                <h5> @Html.DisplayNameFor(model => model.SCity) :<br /></h5>
+                <h6> @Html.DisplayFor(model => model.SCity)</h6>
+            </div>
+            <div class="col-md-6">
+                <h5>   @Html.DisplayNameFor(model => model.RCity) :<br /></h5>
+                <h6> @Html.DisplayFor(model => model.RCity)</h6>
+            </div>
+        </div>
+
+        <div class="row  mt-5 offset-2">
+            <div class="col-md-3">
+                <h5> @Html.DisplayNameFor(model => model.Status) :<br /></h5>
+                <h6>  @Html.DisplayFor(model => model.Status)</h6>
+            </div>
+            <div class="col-md-3">
+                <h5>  @Html.DisplayNameFor(model => model.Name): <br /></h5>
+                @if (@Model.Name == "")
+                {
+                    <h6> Not Yet Assigned </h6>
+                }
+                else
+                {
+                    <h6>@Html.DisplayFor(model => model.Name)</h6>
+                }
+            </div>
+            <div class="col-md-3">
+                <h5>  @Html.DisplayNameFor(model => model.Contact_number) :<br /></h5>
+                @if (@Model.Contact_number == "")
+                {
+                    <h6> N/A </h6>
+                }
+                else
+                {
+                    <h6>  @Html.DisplayFor(model => model.Contact_number)</h6>
+                }
+
+            </div>
+            <div class="col-md-3">
+                <h5> @Html.DisplayNameFor(model => model.ExpectedDelivery): <br /></h5>
+                <h6> @Html.DisplayFor(model => model.ExpectedDelivery)</h6>
+            </div>
+        </div>
+        <div class="row offset-6 mt-4">
+            <div class="col-md-6">
+                @Html.ActionLink("Display Bill", "BillDetails", "Users", new { fromTrack = "Yes" }, new { @class = "btn btn-outline-info" })
+            </div>
+        </div>
+    </div>
+}
+else
+{
+<h2 class="mt-4 offset-4"> Invalid Consignment Number</h2>
+}
+<p>
+
+    @Html.ActionLink("Back to Home", "Home", "Users")
+</p>

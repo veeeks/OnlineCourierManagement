@@ -1,0 +1,43 @@
+﻿@model CourierManagement.MVC.ViewModels.ViewDEViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+<div class="row">
+    <div class="col-md-6">
+        <div>
+            <h4>Details of Delivery Executive</h4>
+            <hr /> <table class="table table-bordered">
+                <tr>
+                    <td>@Html.LabelFor(c => c.Name, new { @class = "font-weight-bold" }) </td>
+                    <td>@Model.Name</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(c => c.DE_Email, new { @class = "font-weight-bold" })</td>
+                    <td>@Model.DE_Email</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(c => c.Contact_number, new { @class = "font-weight-bold" })</td>
+                    <td>@Model.Contact_number</td>
+                </tr>
+                @*<tr>
+                    <td>@Html.LabelFor(c => c.DE_Password, new { @class = "font-weight-bold" })</td>
+                    <td>@Model.DE_Password</td>
+                </tr>*@
+                <tr>
+                    <td>@Html.LabelFor(c => c.DStatus, new { @class = "font-weight-bold" })</td>
+                    <td>@Model.DStatus</td>
+                </tr>
+                <tr>
+                    <td>@Html.LabelFor(c => c.City, new { @class = "font-weight-bold" })</td>
+                    <td>@Model.City</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<p>
+    @*@Html.ActionLink("Update", "Update", new { id = Model.Delivery_Id }) |*@
+    @Html.ActionLink("Back to List", "Viewalldes")
+</p>

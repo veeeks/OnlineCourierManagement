@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "Home";
+}
+
+<br />
+<br />
+<br />
+<br />
+<div class="jumbotron offset-3 mt-5" style="height:300px;width:500px">
+    <br />
+    <h6 style="text-align:center">Enter the Consignment Number to track your order </h6>
+    @using (Html.BeginForm("TrackingDetails", "Users", FormMethod.Post))
+    {
+        <input type="text" name="consignmentNo" class="form-control mt-4 offset-2" value="" placeholder="Consignment Number" />
+        <input type="submit" value="Track" class="btn btn-outline-dark offset-5 mt-4" />
+    }
+</div>

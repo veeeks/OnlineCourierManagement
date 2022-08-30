@@ -1,0 +1,797 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CourierManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Administrator">
+          <Key>
+            <PropertyRef Name="Admin_Id" />
+          </Key>
+          <Property Name="Admin_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Admin_Email" Type="varchar" MaxLength="40" />
+          <Property Name="Password" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Billing_Details">
+          <Key>
+            <PropertyRef Name="Type_Id" />
+          </Key>
+          <Property Name="Type_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Consignement_Type" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Type_Price" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="City_Price_Details">
+          <Key>
+            <PropertyRef Name="City_Id" />
+          </Key>
+          <Property Name="City_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Source_City" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Destination_City" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Cost" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Consignee">
+          <Key>
+            <PropertyRef Name="Consignee_id" />
+          </Key>
+          <Property Name="Consignee_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Consignee_Name" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="Address" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="Mobile_No" Type="varchar" MaxLength="15" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Consigner">
+          <Key>
+            <PropertyRef Name="Consigner_id" />
+          </Key>
+          <Property Name="Consigner_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Consigner_Name" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="Address" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="Mobile_No" Type="varchar" MaxLength="15" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Consignment">
+          <Key>
+            <PropertyRef Name="Consignment_Id" />
+          </Key>
+          <Property Name="Consignment_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Consignment_Type" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Weight" Type="float" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="200" />
+          <Property Name="BookingDate" Type="datetime" />
+          <Property Name="Billing_Amount" Type="float" Nullable="false" />
+          <Property Name="Consignee_Id" Type="int" />
+          <Property Name="Consigner_Id" Type="int" />
+        </EntityType>
+        <EntityType Name="Consignment_Status">
+          <Key>
+            <PropertyRef Name="Status_id" />
+          </Key>
+          <Property Name="Status_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="20" />
+          <Property Name="Remarks" Type="varchar" MaxLength="100" />
+          <Property Name="ExpectedDelivery" Type="datetime" />
+          <Property Name="Consignment_Id" Type="int" />
+          <Property Name="Delivery_Id" Type="int" />
+        </EntityType>
+        <EntityType Name="Delivery_Executive">
+          <Key>
+            <PropertyRef Name="Delivery_Id" />
+          </Key>
+          <Property Name="Delivery_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Consignment_Id" Type="int" />
+          <Property Name="DE_Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DE_Password" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Contact_number" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="DStatus" Type="varchar" MaxLength="50" />
+          <Property Name="City" Type="varchar" MaxLength="50" />
+          <Property Name="MaxQty" Type="int" />
+        </EntityType>
+        <Association Name="fk_Consignment_Consignee_ConsigneeId">
+          <End Role="Consignee" Type="Self.Consignee" Multiplicity="0..1" />
+          <End Role="Consignment" Type="Self.Consignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Consignee">
+              <PropertyRef Name="Consignee_id" />
+            </Principal>
+            <Dependent Role="Consignment">
+              <PropertyRef Name="Consignee_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Consignment_Consigner_ConsignerId">
+          <End Role="Consigner" Type="Self.Consigner" Multiplicity="0..1" />
+          <End Role="Consignment" Type="Self.Consignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Consigner">
+              <PropertyRef Name="Consigner_id" />
+            </Principal>
+            <Dependent Role="Consignment">
+              <PropertyRef Name="Consigner_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ConsignmentStatus_Consignment_ConsignmentId">
+          <End Role="Consignment" Type="Self.Consignment" Multiplicity="0..1" />
+          <End Role="Consignment_Status" Type="Self.Consignment_Status" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Consignment">
+              <PropertyRef Name="Consignment_Id" />
+            </Principal>
+            <Dependent Role="Consignment_Status">
+              <PropertyRef Name="Consignment_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ConsignmentStatus_DeliveryExecutive_DeliveryId">
+          <End Role="Delivery_Executive" Type="Self.Delivery_Executive" Multiplicity="0..1" />
+          <End Role="Consignment_Status" Type="Self.Consignment_Status" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Delivery_Executive">
+              <PropertyRef Name="Delivery_Id" />
+            </Principal>
+            <Dependent Role="Consignment_Status">
+              <PropertyRef Name="Delivery_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_DeliveryExecutive_Consignment_ConsignmentId">
+          <End Role="Consignment" Type="Self.Consignment" Multiplicity="0..1" />
+          <End Role="Delivery_Executive" Type="Self.Delivery_Executive" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Consignment">
+              <PropertyRef Name="Consignment_Id" />
+            </Principal>
+            <Dependent Role="Delivery_Executive">
+              <PropertyRef Name="Consignment_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="usp_AddDeliveryExecutive" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Contact_Number" Type="varchar" Mode="In" />
+          <Parameter Name="Name" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="usp_AssignConsignmentToDeliveryExecutive" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ConsignmentId" Type="int" Mode="In" />
+          <Parameter Name="DeliveryId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="usp_DeleteDeliveryExecutive" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Delivery_Id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="usp_GenerateBill" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="consignmentId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="usp_GenerateBillDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="consignmentId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="usp_GetAllConsignments" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="usp_GetDelieveryExecutiveDetailsByEmail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DEmail" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_GetDelieveryExecutiveDetailsById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="DId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="usp_TrackCourier" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Consignmentid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="usp_ViewConsignmentByDeliveryExecutiveEmail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="usp_ViewUpdateConsignmentDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CId" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="CourierManagementModelStoreContainer">
+          <EntitySet Name="Administrator" EntityType="Self.Administrator" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Billing_Details" EntityType="Self.Billing_Details" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="City_Price_Details" EntityType="Self.City_Price_Details" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Consignee" EntityType="Self.Consignee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Consigner" EntityType="Self.Consigner" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Consignment" EntityType="Self.Consignment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Consignment_Status" EntityType="Self.Consignment_Status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Delivery_Executive" EntityType="Self.Delivery_Executive" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_Consignment_Consignee_ConsigneeId" Association="Self.fk_Consignment_Consignee_ConsigneeId">
+            <End Role="Consignee" EntitySet="Consignee" />
+            <End Role="Consignment" EntitySet="Consignment" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Consignment_Consigner_ConsignerId" Association="Self.fk_Consignment_Consigner_ConsignerId">
+            <End Role="Consigner" EntitySet="Consigner" />
+            <End Role="Consignment" EntitySet="Consignment" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ConsignmentStatus_Consignment_ConsignmentId" Association="Self.fk_ConsignmentStatus_Consignment_ConsignmentId">
+            <End Role="Consignment" EntitySet="Consignment" />
+            <End Role="Consignment_Status" EntitySet="Consignment_Status" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ConsignmentStatus_DeliveryExecutive_DeliveryId" Association="Self.fk_ConsignmentStatus_DeliveryExecutive_DeliveryId">
+            <End Role="Delivery_Executive" EntitySet="Delivery_Executive" />
+            <End Role="Consignment_Status" EntitySet="Consignment_Status" />
+          </AssociationSet>
+          <AssociationSet Name="fk_DeliveryExecutive_Consignment_ConsignmentId" Association="Self.fk_DeliveryExecutive_Consignment_ConsignmentId">
+            <End Role="Consignment" EntitySet="Consignment" />
+            <End Role="Delivery_Executive" EntitySet="Delivery_Executive" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CourierManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Consignee">
+          <Key>
+            <PropertyRef Name="Consignee_id" />
+          </Key>
+          <Property Name="Consignee_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Consignee_Name" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Mobile_No" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Consignments" Relationship="CourierManagementModel.fk_Consignment_Consignee_ConsigneeId" FromRole="Consignee" ToRole="Consignment" />
+        </EntityType>
+        <EntityContainer Name="CourierManagementEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Consignees" EntityType="Self.Consignee" />
+          <EntitySet Name="Billing_Details" EntityType="CourierManagementModel.Billing_Details" />
+          <EntitySet Name="City_Price_Details" EntityType="CourierManagementModel.City_Price_Details" />
+          <EntitySet Name="Consigners" EntityType="CourierManagementModel.Consigner" />
+          <EntitySet Name="Consignments" EntityType="CourierManagementModel.Consignment" />
+          <EntitySet Name="Consignment_Status" EntityType="CourierManagementModel.Consignment_Status" />
+          <EntitySet Name="Delivery_Executive" EntityType="CourierManagementModel.Delivery_Executive" />
+          <AssociationSet Name="fk_Consignment_Consignee_ConsigneeId" Association="CourierManagementModel.fk_Consignment_Consignee_ConsigneeId">
+            <End Role="Consignee" EntitySet="Consignees" />
+            <End Role="Consignment" EntitySet="Consignments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Consignment_Consigner_ConsignerId" Association="CourierManagementModel.fk_Consignment_Consigner_ConsignerId">
+            <End Role="Consigner" EntitySet="Consigners" />
+            <End Role="Consignment" EntitySet="Consignments" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ConsignmentStatus_Consignment_ConsignmentId" Association="CourierManagementModel.fk_ConsignmentStatus_Consignment_ConsignmentId">
+            <End Role="Consignment" EntitySet="Consignments" />
+            <End Role="Consignment_Status" EntitySet="Consignment_Status" />
+          </AssociationSet>
+          <AssociationSet Name="fk_DeliveryExecutive_Consignment_ConsignmentId" Association="CourierManagementModel.fk_DeliveryExecutive_Consignment_ConsignmentId">
+            <End Role="Consignment" EntitySet="Consignments" />
+            <End Role="Delivery_Executive" EntitySet="Delivery_Executive" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ConsignmentStatus_DeliveryExecutive_DeliveryId" Association="CourierManagementModel.fk_ConsignmentStatus_DeliveryExecutive_DeliveryId">
+            <End Role="Delivery_Executive" EntitySet="Delivery_Executive" />
+            <End Role="Consignment_Status" EntitySet="Consignment_Status" />
+          </AssociationSet>
+          <FunctionImport Name="usp_GenerateBillDetails" ReturnType="Collection(CourierManagementModel.usp_GenerateBillDetails_Result)">
+          <Parameter Name="consignmentId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="usp_GetDelieveryExecutiveDetailsByEmail" ReturnType="Collection(CourierManagementModel.usp_GetDelieveryExecutiveDetailsByEmail_Result)">
+          <Parameter Name="DEmail" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_GetDelieveryExecutiveDetailsById" ReturnType="Collection(CourierManagementModel.usp_GetDelieveryExecutiveDetailsById_Result)">
+          <Parameter Name="DId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="usp_TrackCourier" ReturnType="Collection(CourierManagementModel.usp_TrackCourier_Result)">
+          <Parameter Name="Consignmentid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="usp_ViewConsignmentByDeliveryExecutiveId" ReturnType="Collection(CourierManagementModel.usp_ViewConsignmentByDeliveryExecutiveId_Result)">
+          <Parameter Name="Did" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="usp_ViewConsignmentDetailsByConsignmentId" ReturnType="Collection(CourierManagementModel.usp_ViewConsignmentDetailsByConsignmentId_Result)">
+          <Parameter Name="ConsignmentId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="usp_ViewUpdateConsignmentDetails" ReturnType="Collection(CourierManagementModel.usp_ViewUpdateConsignmentDetails_Result)">
+          <Parameter Name="CId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="usp_AssignConsignmentToDeliveryExecutive">
+            <Parameter Name="ConsignmentId" Mode="In" Type="Int32" />
+            <Parameter Name="DeliveryId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="usp_GetAllConsignments" ReturnType="Collection(CourierManagementModel.usp_GetAllConsignments_Result)" />
+          <EntitySet Name="Administrators" EntityType="CourierManagementModel.Administrator" />
+          <FunctionImport Name="usp_AddDeliveryExecutive">
+            <Parameter Name="Contact_Number" Mode="In" Type="String" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="usp_DeleteDeliveryExecutive">
+          <Parameter Name="Delivery_Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="usp_GenerateBill" ReturnType="Collection(CourierManagementModel.usp_GenerateBill_Result)">
+          <Parameter Name="consignmentId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="usp_ViewConsignmentByDeliveryExecutiveEmail" ReturnType="Collection(CourierManagementModel.usp_ViewConsignmentByDeliveryExecutiveEmail_Result1)">
+            <Parameter Name="Email" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <EntityType Name="Billing_Details">
+          <Key>
+            <PropertyRef Name="Type_Id" />
+          </Key>
+          <Property Name="Type_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Consignement_Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Type_Price" Type="Double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="City_Price_Details">
+          <Key>
+            <PropertyRef Name="City_Id" />
+          </Key>
+          <Property Name="City_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Source_City" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Destination_City" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Cost" Type="Double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Consigner">
+          <Key>
+            <PropertyRef Name="Consigner_id" />
+          </Key>
+          <Property Name="Consigner_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Consigner_Name" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="Mobile_No" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Consignments" Relationship="CourierManagementModel.fk_Consignment_Consigner_ConsignerId" FromRole="Consigner" ToRole="Consignment" />
+        </EntityType>
+        <EntityType Name="Consignment">
+          <Key>
+            <PropertyRef Name="Consignment_Id" />
+          </Key>
+          <Property Name="Consignment_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Consignment_Type" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Weight" Type="Double" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="BookingDate" Type="DateTime" Precision="3" />
+          <Property Name="Billing_Amount" Type="Double" Nullable="false" />
+          <Property Name="Consignee_Id" Type="Int32" />
+          <Property Name="Consigner_Id" Type="Int32" />
+          <NavigationProperty Name="Consignee" Relationship="CourierManagementModel.fk_Consignment_Consignee_ConsigneeId" FromRole="Consignment" ToRole="Consignee" />
+          <NavigationProperty Name="Consigner" Relationship="CourierManagementModel.fk_Consignment_Consigner_ConsignerId" FromRole="Consignment" ToRole="Consigner" />
+          <NavigationProperty Name="Consignment_Status" Relationship="CourierManagementModel.fk_ConsignmentStatus_Consignment_ConsignmentId" FromRole="Consignment" ToRole="Consignment_Status" />
+          <NavigationProperty Name="Delivery_Executive" Relationship="CourierManagementModel.fk_DeliveryExecutive_Consignment_ConsignmentId" FromRole="Consignment" ToRole="Delivery_Executive" />
+        </EntityType>
+        <EntityType Name="Consignment_Status">
+          <Key>
+            <PropertyRef Name="Status_id" />
+          </Key>
+          <Property Name="Status_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ExpectedDelivery" Type="DateTime" Precision="3" />
+          <Property Name="Consignment_Id" Type="Int32" />
+          <Property Name="Delivery_Id" Type="Int32" />
+          <NavigationProperty Name="Consignment" Relationship="CourierManagementModel.fk_ConsignmentStatus_Consignment_ConsignmentId" FromRole="Consignment_Status" ToRole="Consignment" />
+          <NavigationProperty Name="Delivery_Executive" Relationship="CourierManagementModel.fk_ConsignmentStatus_DeliveryExecutive_DeliveryId" FromRole="Consignment_Status" ToRole="Delivery_Executive" />
+        </EntityType>
+        <EntityType Name="Delivery_Executive">
+          <Key>
+            <PropertyRef Name="Delivery_Id" />
+          </Key>
+          <Property Name="Delivery_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Consignment_Id" Type="Int32" />
+          <Property Name="DE_Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Contact_number" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" DefaultValue="Available" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MaxQty" Type="Int32" DefaultValue="0" />
+          <Property Name="DE_Password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Consignment" Relationship="CourierManagementModel.fk_DeliveryExecutive_Consignment_ConsignmentId" FromRole="Delivery_Executive" ToRole="Consignment" />
+          <NavigationProperty Name="Consignment_Status" Relationship="CourierManagementModel.fk_ConsignmentStatus_DeliveryExecutive_DeliveryId" FromRole="Delivery_Executive" ToRole="Consignment_Status" />
+        </EntityType>
+        <Association Name="fk_Consignment_Consignee_ConsigneeId">
+          <End Type="CourierManagementModel.Consignee" Role="Consignee" Multiplicity="0..1" />
+          <End Type="CourierManagementModel.Consignment" Role="Consignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Consignee">
+              <PropertyRef Name="Consignee_id" />
+            </Principal>
+            <Dependent Role="Consignment">
+              <PropertyRef Name="Consignee_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Consignment_Consigner_ConsignerId">
+          <End Type="CourierManagementModel.Consigner" Role="Consigner" Multiplicity="0..1" />
+          <End Type="CourierManagementModel.Consignment" Role="Consignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Consigner">
+              <PropertyRef Name="Consigner_id" />
+            </Principal>
+            <Dependent Role="Consignment">
+              <PropertyRef Name="Consigner_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ConsignmentStatus_Consignment_ConsignmentId">
+          <End Type="CourierManagementModel.Consignment" Role="Consignment" Multiplicity="0..1" />
+          <End Type="CourierManagementModel.Consignment_Status" Role="Consignment_Status" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Consignment">
+              <PropertyRef Name="Consignment_Id" />
+            </Principal>
+            <Dependent Role="Consignment_Status">
+              <PropertyRef Name="Consignment_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_DeliveryExecutive_Consignment_ConsignmentId">
+          <End Type="CourierManagementModel.Consignment" Role="Consignment" Multiplicity="0..1" />
+          <End Type="CourierManagementModel.Delivery_Executive" Role="Delivery_Executive" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Consignment">
+              <PropertyRef Name="Consignment_Id" />
+            </Principal>
+            <Dependent Role="Delivery_Executive">
+              <PropertyRef Name="Consignment_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ConsignmentStatus_DeliveryExecutive_DeliveryId">
+          <End Type="CourierManagementModel.Delivery_Executive" Role="Delivery_Executive" Multiplicity="0..1" />
+          <End Type="CourierManagementModel.Consignment_Status" Role="Consignment_Status" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Delivery_Executive">
+              <PropertyRef Name="Delivery_Id" />
+            </Principal>
+            <Dependent Role="Consignment_Status">
+              <PropertyRef Name="Delivery_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="usp_GenerateBillDetails_Result">
+          <Property Type="String" Name="Consignee_Name" Nullable="false" MaxLength="40" />
+          <Property Type="String" Name="RAddress" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="RCity" Nullable="false" MaxLength="40" />
+          <Property Type="String" Name="Consigner_Name" Nullable="false" MaxLength="40" />
+          <Property Type="String" Name="SAddress" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="SCity" Nullable="false" MaxLength="40" />
+          <Property Type="Int32" Name="Consignment_Id" Nullable="false" />
+          <Property Type="String" Name="Consignment_Type" Nullable="false" MaxLength="20" />
+          <Property Type="Double" Name="Weight" Nullable="false" />
+          <Property Type="Double" Name="Billing_Amount" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="usp_GetDelieveryExecutiveDetailsByEmail_Result">
+          <Property Type="Int32" Name="Delivery_Id" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Contact_number" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="City" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="usp_GetDelieveryExecutiveDetailsById_Result">
+          <Property Type="Int32" Name="Delivery_Id" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Contact_number" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="City" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="usp_TrackCourier_Result">
+          <Property Type="String" Name="Consignee_Name" Nullable="false" MaxLength="40" />
+          <Property Type="Int32" Name="Consignee_id" Nullable="false" />
+          <Property Type="String" Name="RAddress" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="RCity" Nullable="false" MaxLength="40" />
+          <Property Type="String" Name="Consigner_Name" Nullable="false" MaxLength="40" />
+          <Property Type="Int32" Name="Consigner_id" Nullable="false" />
+          <Property Type="String" Name="SAddress" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="SCity" Nullable="false" MaxLength="40" />
+          <Property Type="Int32" Name="Consignment_Id" Nullable="false" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Contact_number" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="1" />
+          <Property Type="DateTime" Name="ExpectedDelivery" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="usp_ViewConsignmentByDeliveryExecutiveEmail_Result">
+          <Property Type="Int32" Name="Consignment_Id" Nullable="false" />
+          <Property Type="String" Name="Consignment_Type" Nullable="false" MaxLength="20" />
+          <Property Type="Double" Name="Weight" Nullable="false" />
+          <Property Type="Int32" Name="Quantity" Nullable="false" />
+          <Property Type="String" Name="Consigner_Name" Nullable="false" MaxLength="40" />
+          <Property Type="String" Name="Consignee_Name" Nullable="false" MaxLength="40" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="20" />
+          <Property Type="DateTime" Name="BookingDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ExpectedDelivery" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="usp_ViewConsignmentByDeliveryExecutiveId_Result">
+          <Property Type="Int32" Name="Consignment_Id" Nullable="false" />
+          <Property Type="String" Name="Consignment_Type" Nullable="false" MaxLength="20" />
+          <Property Type="Double" Name="Weight" Nullable="false" />
+          <Property Type="Int32" Name="Quantity" Nullable="false" />
+          <Property Type="String" Name="Consigner_Name" Nullable="false" MaxLength="40" />
+          <Property Type="String" Name="Consignee_Name" Nullable="false" MaxLength="40" />
+          <Property Type="String" Name="Address" Nullable="false" MaxLength="500" />
+          <Property Type="DateTime" Name="BookingDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ExpectedDelivery" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="usp_ViewConsignmentDetailsByConsignmentId_Result">
+          <Property Type="String" Name="Consigner_Name" Nullable="false" MaxLength="40" />
+          <Property Type="String" Name="Consigner_ContactNumber" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="City" Nullable="false" MaxLength="40" />
+          <Property Type="String" Name="Consigner_Address" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="Consignee_Name" Nullable="false" MaxLength="40" />
+          <Property Type="String" Name="Consignee_Contact_Number" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="Consignee_City" Nullable="false" MaxLength="40" />
+          <Property Type="String" Name="ConsigneeAddress" Nullable="false" MaxLength="500" />
+          <Property Type="DateTime" Name="BookingDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ExpectedDelivery" Nullable="true" Precision="23" />
+          <Property Type="Double" Name="Billing_Amount" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="usp_ViewUpdateConsignmentDetails_Result">
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Remarks" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="ExpectedDelivery" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="usp_GetAllConsignments_Result">
+          <Property Type="Int32" Name="Consignment_Id" Nullable="false" />
+          <Property Type="String" Name="Consignment_Type" Nullable="false" MaxLength="20" />
+          <Property Type="Double" Name="Weight" Nullable="false" />
+          <Property Type="Int32" Name="Quantity" Nullable="false" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="200" />
+          <Property Type="DateTime" Name="BookingDate" Nullable="true" Precision="23" />
+          <Property Type="Double" Name="Billing_Amount" Nullable="false" />
+          <Property Type="Int32" Name="Consignee_Id" Nullable="true" />
+          <Property Type="Int32" Name="Consigner_Id" Nullable="true" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="Delivery_Id" Nullable="true" />
+          <Property Type="DateTime" Name="ExpectedDelivery" Nullable="true" Precision="23" />
+        </ComplexType>
+        <EntityType Name="Administrator">
+          <Key>
+            <PropertyRef Name="Admin_Id" />
+          </Key>
+          <Property Name="Admin_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Admin_Email" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="usp_GenerateBill_Result">
+          <Property Type="String" Name="Consignee_Name" Nullable="false" MaxLength="40" />
+          <Property Type="Int32" Name="Consignee_id" Nullable="false" />
+          <Property Type="String" Name="RAddress" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="RCity" Nullable="false" MaxLength="40" />
+          <Property Type="String" Name="Consigner_Name" Nullable="false" MaxLength="40" />
+          <Property Type="Int32" Name="Consigner_id" Nullable="false" />
+          <Property Type="String" Name="SAddress" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="SCity" Nullable="false" MaxLength="40" />
+          <Property Type="Int32" Name="Consignment_Id" Nullable="false" />
+          <Property Type="Double" Name="Billing_Amount" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="usp_ViewConsignmentByDeliveryExecutiveEmail_Result1">
+          <Property Type="Int32" Name="Consignment_Id" Nullable="false" />
+          <Property Type="String" Name="Consignment_Type" Nullable="false" MaxLength="20" />
+          <Property Type="Double" Name="Weight" Nullable="false" />
+          <Property Type="Int32" Name="Quantity" Nullable="false" />
+          <Property Type="String" Name="Consigner_Name" Nullable="false" MaxLength="40" />
+          <Property Type="String" Name="Consignee_Name" Nullable="false" MaxLength="40" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="20" />
+          <Property Type="DateTime" Name="BookingDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ExpectedDelivery" Nullable="true" Precision="23" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CourierManagementModelStoreContainer" CdmEntityContainer="CourierManagementEntities">
+          <EntitySetMapping Name="Consignees">
+            <EntityTypeMapping TypeName="CourierManagementModel.Consignee">
+              <MappingFragment StoreEntitySet="Consignee">
+                <ScalarProperty Name="Consignee_id" ColumnName="Consignee_id" />
+                <ScalarProperty Name="Consignee_Name" ColumnName="Consignee_Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Mobile_No" ColumnName="Mobile_No" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Billing_Details">
+            <EntityTypeMapping TypeName="CourierManagementModel.Billing_Details">
+              <MappingFragment StoreEntitySet="Billing_Details">
+                <ScalarProperty Name="Type_Price" ColumnName="Type_Price" />
+                <ScalarProperty Name="Consignement_Type" ColumnName="Consignement_Type" />
+                <ScalarProperty Name="Type_Id" ColumnName="Type_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="City_Price_Details">
+            <EntityTypeMapping TypeName="CourierManagementModel.City_Price_Details">
+              <MappingFragment StoreEntitySet="City_Price_Details">
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="Destination_City" ColumnName="Destination_City" />
+                <ScalarProperty Name="Source_City" ColumnName="Source_City" />
+                <ScalarProperty Name="City_Id" ColumnName="City_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Consigners">
+            <EntityTypeMapping TypeName="CourierManagementModel.Consigner">
+              <MappingFragment StoreEntitySet="Consigner">
+                <ScalarProperty Name="Mobile_No" ColumnName="Mobile_No" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Consigner_Name" ColumnName="Consigner_Name" />
+                <ScalarProperty Name="Consigner_id" ColumnName="Consigner_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Consignments">
+            <EntityTypeMapping TypeName="CourierManagementModel.Consignment">
+              <MappingFragment StoreEntitySet="Consignment">
+                <ScalarProperty Name="Consigner_Id" ColumnName="Consigner_Id" />
+                <ScalarProperty Name="Consignee_Id" ColumnName="Consignee_Id" />
+                <ScalarProperty Name="Billing_Amount" ColumnName="Billing_Amount" />
+                <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="Consignment_Type" ColumnName="Consignment_Type" />
+                <ScalarProperty Name="Consignment_Id" ColumnName="Consignment_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Consignment_Status">
+            <EntityTypeMapping TypeName="CourierManagementModel.Consignment_Status">
+              <MappingFragment StoreEntitySet="Consignment_Status">
+                <ScalarProperty Name="Delivery_Id" ColumnName="Delivery_Id" />
+                <ScalarProperty Name="Consignment_Id" ColumnName="Consignment_Id" />
+                <ScalarProperty Name="ExpectedDelivery" ColumnName="ExpectedDelivery" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Status_id" ColumnName="Status_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Delivery_Executive">
+            <EntityTypeMapping TypeName="CourierManagementModel.Delivery_Executive">
+              <MappingFragment StoreEntitySet="Delivery_Executive">
+                <ScalarProperty Name="DE_Password" ColumnName="DE_Password" />
+                <ScalarProperty Name="MaxQty" ColumnName="MaxQty" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="DStatus" ColumnName="DStatus" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Contact_number" ColumnName="Contact_number" />
+                <ScalarProperty Name="DE_Email" ColumnName="DE_Email" />
+                <ScalarProperty Name="Consignment_Id" ColumnName="Consignment_Id" />
+                <ScalarProperty Name="Delivery_Id" ColumnName="Delivery_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="usp_GenerateBillDetails" FunctionName="CourierManagementModel.Store.usp_GenerateBillDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CourierManagementModel.usp_GenerateBillDetails_Result">
+                <ScalarProperty Name="Consignee_Name" ColumnName="Consignee_Name" />
+                <ScalarProperty Name="RAddress" ColumnName="RAddress" />
+                <ScalarProperty Name="RCity" ColumnName="RCity" />
+                <ScalarProperty Name="Consigner_Name" ColumnName="Consigner_Name" />
+                <ScalarProperty Name="SAddress" ColumnName="SAddress" />
+                <ScalarProperty Name="SCity" ColumnName="SCity" />
+                <ScalarProperty Name="Consignment_Id" ColumnName="Consignment_Id" />
+                <ScalarProperty Name="Consignment_Type" ColumnName="Consignment_Type" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="Billing_Amount" ColumnName="Billing_Amount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_GetDelieveryExecutiveDetailsByEmail" FunctionName="CourierManagementModel.Store.usp_GetDelieveryExecutiveDetailsByEmail">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CourierManagementModel.usp_GetDelieveryExecutiveDetailsByEmail_Result">
+                <ScalarProperty Name="Delivery_Id" ColumnName="Delivery_Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Contact_number" ColumnName="Contact_number" />
+                <ScalarProperty Name="City" ColumnName="City" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_GetDelieveryExecutiveDetailsById" FunctionName="CourierManagementModel.Store.usp_GetDelieveryExecutiveDetailsById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CourierManagementModel.usp_GetDelieveryExecutiveDetailsById_Result">
+                <ScalarProperty Name="Delivery_Id" ColumnName="Delivery_Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Contact_number" ColumnName="Contact_number" />
+                <ScalarProperty Name="City" ColumnName="City" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_TrackCourier" FunctionName="CourierManagementModel.Store.usp_TrackCourier">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CourierManagementModel.usp_TrackCourier_Result">
+                <ScalarProperty Name="Consignee_Name" ColumnName="Consignee_Name" />
+                <ScalarProperty Name="Consignee_id" ColumnName="Consignee_id" />
+                <ScalarProperty Name="RAddress" ColumnName="RAddress" />
+                <ScalarProperty Name="RCity" ColumnName="RCity" />
+                <ScalarProperty Name="Consigner_Name" ColumnName="Consigner_Name" />
+                <ScalarProperty Name="Consigner_id" ColumnName="Consigner_id" />
+                <ScalarProperty Name="SAddress" ColumnName="SAddress" />
+                <ScalarProperty Name="SCity" ColumnName="SCity" />
+                <ScalarProperty Name="Consignment_Id" ColumnName="Consignment_Id" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Contact_number" ColumnName="Contact_number" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ExpectedDelivery" ColumnName="ExpectedDelivery" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_ViewUpdateConsignmentDetails" FunctionName="CourierManagementModel.Store.usp_ViewUpdateConsignmentDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CourierManagementModel.usp_ViewUpdateConsignmentDetails_Result">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="ExpectedDelivery" ColumnName="ExpectedDelivery" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_AssignConsignmentToDeliveryExecutive" FunctionName="CourierManagementModel.Store.usp_AssignConsignmentToDeliveryExecutive" />
+          <FunctionImportMapping FunctionImportName="usp_GetAllConsignments" FunctionName="CourierManagementModel.Store.usp_GetAllConsignments">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CourierManagementModel.usp_GetAllConsignments_Result">
+                <ScalarProperty Name="Consignment_Id" ColumnName="Consignment_Id" />
+                <ScalarProperty Name="Consignment_Type" ColumnName="Consignment_Type" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
+                <ScalarProperty Name="Billing_Amount" ColumnName="Billing_Amount" />
+                <ScalarProperty Name="Consignee_Id" ColumnName="Consignee_Id" />
+                <ScalarProperty Name="Consigner_Id" ColumnName="Consigner_Id" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Delivery_Id" ColumnName="Delivery_Id" />
+                <ScalarProperty Name="ExpectedDelivery" ColumnName="ExpectedDelivery" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Administrators">
+            <EntityTypeMapping TypeName="CourierManagementModel.Administrator">
+              <MappingFragment StoreEntitySet="Administrator">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Admin_Email" ColumnName="Admin_Email" />
+                <ScalarProperty Name="Admin_Id" ColumnName="Admin_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="usp_AddDeliveryExecutive" FunctionName="CourierManagementModel.Store.usp_AddDeliveryExecutive" />
+          <FunctionImportMapping FunctionImportName="usp_DeleteDeliveryExecutive" FunctionName="CourierManagementModel.Store.usp_DeleteDeliveryExecutive" />
+          <FunctionImportMapping FunctionImportName="usp_GenerateBill" FunctionName="CourierManagementModel.Store.usp_GenerateBill">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CourierManagementModel.usp_GenerateBill_Result">
+                <ScalarProperty Name="Consignee_Name" ColumnName="Consignee_Name" />
+                <ScalarProperty Name="Consignee_id" ColumnName="Consignee_id" />
+                <ScalarProperty Name="RAddress" ColumnName="RAddress" />
+                <ScalarProperty Name="RCity" ColumnName="RCity" />
+                <ScalarProperty Name="Consigner_Name" ColumnName="Consigner_Name" />
+                <ScalarProperty Name="Consigner_id" ColumnName="Consigner_id" />
+                <ScalarProperty Name="SAddress" ColumnName="SAddress" />
+                <ScalarProperty Name="SCity" ColumnName="SCity" />
+                <ScalarProperty Name="Consignment_Id" ColumnName="Consignment_Id" />
+                <ScalarProperty Name="Billing_Amount" ColumnName="Billing_Amount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_ViewConsignmentByDeliveryExecutiveEmail" FunctionName="CourierManagementModel.Store.usp_ViewConsignmentByDeliveryExecutiveEmail">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CourierManagementModel.usp_ViewConsignmentByDeliveryExecutiveEmail_Result1">
+                <ScalarProperty Name="Consignment_Id" ColumnName="Consignment_Id" />
+                <ScalarProperty Name="Consignment_Type" ColumnName="Consignment_Type" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Consigner_Name" ColumnName="Consigner_Name" />
+                <ScalarProperty Name="Consignee_Name" ColumnName="Consignee_Name" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
+                <ScalarProperty Name="ExpectedDelivery" ColumnName="ExpectedDelivery" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

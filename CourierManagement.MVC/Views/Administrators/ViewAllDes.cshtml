@@ -1,0 +1,60 @@
+﻿@model IEnumerable<CourierManagement.MVC.ViewModels.ViewDEViewModel>
+
+@{
+    ViewBag.Title = "ViewAllDes";
+    WebGrid grid = new WebGrid(source: Model, canPage: true, canSort: false, rowsPerPage: 5);
+}
+@if (ViewBag.Errors != null)
+{
+    <label class="text-danger">@ViewBag.Errors</label>
+}
+@if (Model.Any())
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Delivery Executives</h2>
+                <br />
+                <div class="col-md-offset-6">
+                    <button>@Html.ActionLink("Add New Delivery Executive", "Register", "Account")</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    using (Html.BeginForm("Viewalldes", "Administrators", FormMethod.Post))
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <a class="font-weight-normal">Search By City</a>
+                <input class="border-dark" type="text" name="city" id="TxtCity" value="" />
+                <input type="submit" value="Search" class="btn btn-outline-primary" />
+            </div>
+        </div>
+    }
+    <br />
+    @grid.GetHtml(
+                  htmlAttributes: new { @id = "GridDE", @class = "table table-hover" },
+                  columns: grid.Columns(
+                                        grid.Column(header: "Name", columnName: "Name"),
+                                        grid.Column(header: "Email", columnName: "DE_Email"),
+                                        grid.Column(header: "Contact Number", columnName: "Contact_number"),
+                                        //grid.Column(header: "Password", columnName: "DE_Password"),
+                                        grid.Column(header: "Status", columnName: "DStatus"),
+                                        grid.Column(header: "Origin City", columnName: "City"),
+                                           grid.Column(header: "Actions", format:
+                                            @<text>
+                                                @Html.ActionLink("Details", "Details", "Administrators", new { id = item.Delivery_Id }, null) |
+                                                @if (item.DStatus != "Busy")
+                                                {
+                                                @Html.ActionLink("Delete", "Deletede", "Administrators", new { id = item.Delivery_Id }, new { onclick = "return confirm('Are sure wants to delete Delivery Executive?');" })
+                                                }
+                                            </text>)
+                                                    )
+                                     );
+    <div>
+        @Html.ActionLink("Back to List", "ViewAllDes", "Administrators")
+    </div>
+
+}
+

@@ -1,0 +1,31 @@
+﻿@model CourierManagement.MVC.ViewModels.DeliveryExecutivesViewModel
+
+@{
+    ViewBag.Title = "ProfileDetails";
+}
+
+<div class="center">
+    <h2>ProfileDetails</h2>
+    <hr />
+
+    <table class="table table-borderless">
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.Name)</td>
+            <td>@Html.DisplayFor(model => model.Name)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.Contact_number)</td>
+            <td>@Html.DisplayFor(model => model.Contact_number)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.City)</td>
+            <td>@Html.DisplayFor(model => model.City)</td>
+        </tr>
+    </table>
+
+    @Html.ActionLink("Edit", "EditProfile", new { id = Model.Delivery_Id }, new { @class = "btn btn-primary" })
+</div>
+<p> 
+    <br />
+    @Html.ActionLink("Back to List", "Index")
+</p>

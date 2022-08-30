@@ -1,0 +1,74 @@
+﻿@model IEnumerable<CourierManagement.MVC.ViewModels.AConsignmentStatusViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<table class="table table-hover mt-2">
+    <tr>
+        @*<th>
+                @Html.DisplayNameFor(model => model.Status_id)
+            </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Delivery_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpectedDelivery)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Consignment_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Consigner_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Consignee_id)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    @*<td>
+            @Html.DisplayFor(modelItem => item.Status_id)
+        </td>*@
+    <td>
+        @Html.DisplayFor(modelItem => item.Status)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Delivery_Id)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ExpectedDelivery)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Consignment_Id)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Consigner_id)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Consignee_id)
+    </td>
+    <td>
+        @if (item.Status == "Pending")
+        {
+        @Html.ActionLink("Assign", "Create", new { /* id = Model.PrimaryKey */ }) 
+        }
+
+    </td>
+</tr>
+    }
+
+</table>
+
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

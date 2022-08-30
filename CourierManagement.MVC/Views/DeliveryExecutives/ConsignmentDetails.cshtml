@@ -1,0 +1,55 @@
+﻿@model CourierManagement.MVC.ViewModels.ConsignmentStatusDetailsViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div>
+    <table class="table">
+        <thead><h3>Consignment Details</h3></thead>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.Consigner_Name)<br />
+                @*@Html.DisplayNameFor(model => model.City)<br />
+                @Html.DisplayNameFor(model => model.Consigner_ContactNumber)<br />
+                @Html.DisplayNameFor(model => model.Consigner_Address)*@
+                <br />
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Consigner_Name) <br />
+                @Html.DisplayFor(model => model.City) <br />
+                @Html.DisplayFor(model => model.Consigner_ContactNumber)<br />
+                @Html.DisplayFor(model => model.Consigner_Address)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.Consignee_Name)<br />
+                @*@Html.DisplayNameFor(model => model.Consignee_City)</br>
+                @Html.DisplayNameFor(model => model.Consignee_Contact_Number)<br />
+                @Html.DisplayNameFor(model => model.ConsigneeAddress)<br />*@
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Consignee_Name)<br />
+                @Html.DisplayFor(model => model.Consignee_City)<br />
+                @Html.DisplayFor(model => model.Consignee_Contact_Number)<br />
+                @Html.DisplayFor(model => model.ConsigneeAddress)<br />
+            </td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.BookingDate)</td>
+            <td>@Html.DisplayFor(model => model.BookingDate)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.ExpectedDelivery)</td>
+            <td>@Html.DisplayFor(model => model.ExpectedDelivery)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.Billing_Amount)</td>
+            <td>@Html.DisplayFor(model => model.Billing_Amount)</td>
+        </tr>
+    </table>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>
